@@ -1,0 +1,21 @@
+# top-most EditorConfig file
+root = true
+
+# Unix style line endings with newline ending every file
+[*]
+# whitespace config
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+# indents
+indent_style = space
+indent_size = 2
+
+# charset
+charset = UTF-8
+
+# stylistic config
+max_line_length = 80
+quote_type = single
+
