@@ -1,7 +1,12 @@
 body {
   background: #fff;
 
-  h1 {
+  .main {
+    width: 100%
+    margin: 0 auto;
+  }
+  h1.jumbotron {
+    font-family: 'Ubuntu Mono';
     color: tomato;
   }
 }
