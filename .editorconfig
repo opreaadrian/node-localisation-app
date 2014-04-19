@@ -16,6 +16,6 @@ indent_size = 2
 charset = UTF-8
 
 # stylistic config
-max_line_length = 80
+max_line_length = 100
 quote_type = single
 
