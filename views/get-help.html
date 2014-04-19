@@ -1,3 +1,13 @@
 <% include head.html %>
-  <h1><%= title %></h1>
+
+  <h1 class="jumbotron"><%= pageTitle %></h1>
+
+  <form class="form-inline" action="/send" method="POST" role="form">
+    <div class="form-group">
+      <label class="sr-only" for="phoneNumber"> <%= labelText %> </label>
+      <input id="phoneNumber" name="phoneNumber" class="form-control input-lg" type="phone" placeholder="<%= placeholderText %>">
+    </div>
+    <button class="btn btn-lg btn-primary" type="submit"><%= buttonText %></button>
+  </form>
+
 <% include footer.html %>
