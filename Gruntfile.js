@@ -7,7 +7,7 @@ module.exports = function(grunt) {
       build: {
         options: {
           style: 'expanded',
-          sourcemap: true,
+          // sourcemap: true,
           debugInfo: true,
           unixNewlines: true,
           trace: true
