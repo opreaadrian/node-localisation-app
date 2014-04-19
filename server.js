@@ -6,7 +6,7 @@
 var express = require('express'),
     app = express(),
     routes = require('./routes'),
-    user = require('./routes/user'),
+    gethelp = require('./routes/gethelp'),
     http = require('http'),
     path = require('path'),
     server = http.createServer(app),
@@ -38,8 +38,7 @@ server.listen(app.get('port'), function(){
 });
 
 app.get('/', routes.index);
-app.get('/:phoneno', routes.index);
-app.get('/users', user.list);
+app.get('/get-help', gethelp.index);
 
 io.sockets.on('connection', function(socket) {
   socket.emit('connected', {notification: 'hello'});
