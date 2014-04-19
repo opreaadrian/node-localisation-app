@@ -1,0 +1,19 @@
+{
+  "name": "node-localisation",
+  "version": "0.0.1",
+  "homepage": "https://github.com/opreaadrian/node-localisation-app",
+  "authors": [
+    "Adrian Oprea <opreaadriangeorge@gmail.com>"
+  ],
+  "description": "Small localisation app built with NodeJS",
+  "main": "server.js",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
