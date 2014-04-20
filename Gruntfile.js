@@ -33,8 +33,8 @@ module.exports = function(grunt) {
     mocha: {
 
       test: {
-        src: ['tests/**/*.html'],
-        dest: 'tests/out/reporter.out'
+        src: ['test/**/*.html'],
+        dest: 'test/out/reporter.out'
       },
 
       options: {
