@@ -1,9 +1,34 @@
 @media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/adrianoprea\/Documents\/Projects\/node-localisation\/public\/stylesheets\/sass\/style\.scss}line{font-family:\000031}}
 body {
   background: #fff;
+  height: 100%;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/adrianoprea\/Documents\/Projects\/node-localisation\/public\/stylesheets\/sass\/style\.scss}line{font-family:\000036}}
-body h1.jumbotron {
-  font-family: 'Ubuntu Mono';
-  color: tomato;
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/adrianoprea\/Documents\/Projects\/node-localisation\/public\/stylesheets\/sass\/style\.scss}line{font-family:\000035}}
+body .main {
+  width: 100%;
+  height: 100%;
+  margin: 0 auto;
+  position: relative;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/adrianoprea\/Documents\/Projects\/node-localisation\/public\/stylesheets\/sass\/style\.scss}line{font-family:\0000312}}
+body .form-wrapper {
+  margin-top: 15%;
+  background-color: rgba(60, 60, 60, 0.8);
+  z-index: 1;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/adrianoprea\/Documents\/Projects\/node-localisation\/public\/stylesheets\/sass\/style\.scss}line{font-family:\0000319}}
+body .map-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 0;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/adrianoprea\/Documents\/Projects\/node-localisation\/public\/stylesheets\/sass\/style\.scss}line{font-family:\0000330}}
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
