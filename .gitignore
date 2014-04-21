@@ -1,0 +1,7 @@
+# Mocha tests output
+/test/out/*
+# Google Maps API config
+mapsapiconfig.json
+
+# Twilio API creds
+twilio.json
