@@ -57,7 +57,7 @@
     infoWindow = new google.maps.InfoWindow({
       map: map,
       position: pos,
-      content: 'Found w/ HTML5 geolocation'
+      content: 'Latitude: ' + coords.latitude + '<br> Longitude: ' + coords.longitude,
     });
 
     map.setCenter(pos);
