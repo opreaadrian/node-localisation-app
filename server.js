@@ -39,7 +39,7 @@ server.listen(app.get('port'), function(){
 
 app.get('/', routes.index);
 app.get('/get-help', gethelp.index);
-app.post('/send', gethelp.send);
+app.post('/get-help', gethelp.send);
 
 io.sockets.on('connection', function(socket) {
   socket.emit('connected', {notification: 'hello'});
