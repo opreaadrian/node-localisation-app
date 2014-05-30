@@ -42,8 +42,9 @@ app.get('/get-help', gethelp.index);
 app.post('/get-help', gethelp.send);
 
 io.sockets.on('connection', function(socket) {
-  socket.emit('connected', {notification: 'hello'});
+  socpet.emit('connected', {notification: 'hello'});
   socket.on('localized', function(data) {
     console.log(data);
+    };
   });
 });

@@ -14,7 +14,7 @@
   }
 
   navigator.geolocation.getCurrentPosition(function(position) {
-    
+
     initializeMap(position.coords);
 
   });
@@ -29,9 +29,9 @@
     var mapOptions,
       mapCanvas,
       map;
-      
+
     mapOptions = {
-      zoom: 10,
+      zoom: 17,
       center: new google.maps.LatLng(coords.latitude, coords.longitude),
       mapTypeId: google.maps.MapTypeId.ROADMAP
     };
@@ -50,14 +50,31 @@
    */
   function initializeInfoPanel(map, coords) {
     var infoWindow,
-      pos;
+      pos = null,
+      marker = null;
 
     pos = new google.maps.LatLng(coords.latitude, coords.longitude);
 
-    infoWindow = new google.maps.InfoWindow({
+
+    marker = new google.maps.Marker({
       map: map,
       position: pos,
-      content: 'Latitude: ' + coords.latitude + '<br> Longitude: ' + coords.longitude,
+      title: 'You are here'
+    });
+
+    infoWindow = new google.maps.InfoWindow({
+      content: '<div class="container ">' +
+        '<span>Latitude: </span>' +
+        coords.latitude +
+        '<br> <span>Longitude: </span> ' +
+        coords.longitude +
+        '<br><br>' +
+        '<a class="more-info btn btn-info" href="#">Detailed info</a>' +
+        '</div>',
+    });
+
+    google.maps.event.addListener(marker, 'click', function() {
+      infoWindow.open(marker.get('map'), marker);
     });
 
     map.setCenter(pos);
