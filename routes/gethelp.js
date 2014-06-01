@@ -1,8 +1,9 @@
-var fs = require('fs'),
-  mapsApiKey = JSON.parse(fs.readFileSync(__dirname + '/../mapsapiconfig.json')).apiKey,
-  twilio = JSON.parse(fs.readFileSync( __dirname + '/../twilio.json'));
+var fs          = require('fs'),
+    mapsApiKey  = JSON.parse(fs.readFileSync(__dirname + '/../mapsapiconfig.json')).apiKey,
+    twilio      = JSON.parse(fs.readFileSync( __dirname + '/../twilio.json'));
 
 exports.index = function(req, res) {
+  'use strict';
 
   res.render('get-help', {
     pageTitle: 'Get help',
@@ -18,11 +19,13 @@ exports.index = function(req, res) {
 };
 
 exports.send = function(req, res) {
+  'use strict';
+
   /** Twilio private config */
-    var accountSid = twilio.sid,
-      fromPhoneNo = twilio.fromPhoneNo,
-      authToken = twilio.token,
-      client = require('twilio')(accountSid, authToken),
+    var accountSid    = twilio.sid,
+        fromPhoneNo   = twilio.fromPhoneNo,
+        authToken     = twilio.token,
+        client        = require('twilio')(accountSid, authToken),
 
     /** User's phone number -- inserted on the help page*/
     phone = req.body.phoneNumber;
