@@ -1,5 +1,7 @@
 {
   "username"  : "test",
   "password"  : "test",
-  "dbHost"    : "localhost"
+  "dbHost"    : "localhost",
+  "dbPort"    : "27017",
+  "dbName"    : "emergency-service"
 }
