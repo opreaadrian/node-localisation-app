@@ -9,25 +9,31 @@ var mongoose                = require('mongoose'),
     reasons                 = null;
 
 var UserSchema = new Schema({
-  name: String,
-  username: {
-    type: String,
-    required: true,
-    index: {
-      unique: true
-    }
+
+  local           : {
+    email         : String,
+    password      : String
   },
-  password: {
-    type: String,
-    required: true
+  facebook        : {
+    id            : String,
+    token         : String,
+    email         : String,
+    name          : String
   },
-  loginAttempts: {
-    type: Number,
-    required: true,
-    default: 0
+  twitter         : {
+    id            : String,
+    token         : String,
+    displayName   : String,
+    username      : String
   },
-  lockUntil: {
-    type: Number
+  loginAttempts   : {
+    type          : Number,
+    required      : true,
+    default       : 0
+  },
+
+  lockUntil       : {
+    type          : Number
   }
 
 });
@@ -46,12 +52,12 @@ UserSchema.pre('save', function(next) {
       return next(err);
     }
 
-    bcrypt.hash(user.password, salt, function(err, hash) {
+    bcrypt.hash(user.local.password, salt, function(err, hash) {
       if (err) {
         return next(err);
       }
 
-      user.password = hash;
+      user.local.password = hash;
       next();
     });
   });
@@ -60,7 +66,7 @@ UserSchema.pre('save', function(next) {
 UserSchema.methods.comparePasswords = function(candidatePassword, fn) {
   'use strict';
 
-  bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
+  bcrypt.compare(candidatePassword, this.local.password, function(err, isMatch) {
     if (err) {
       return next(err);
     }
