@@ -1,11 +1,12 @@
-var mongoose              = require('mongoose'),
-  database                = require('database'),
-  bcrypt                  = require('bcrypt'),
-  schema                  = mongoose.Schema,
-  SALT_WORK_FACTOR        = 10,
-  MAXIMUM_LOGIN_ATTEMPTS  = 5,
-  LOCK_TIME               = 2 * 60 * 60 * 1000, // Time in miliseconds (2h)
-  reasons                 = null;
+/* global next */
+var mongoose                = require('mongoose'),
+    database                = require('./database'),
+    bcrypt                  = require('bcrypt'),
+    Schema                  = mongoose.Schema,
+    SALT_WORK_FACTOR        = 10,
+    MAXIMUM_LOGIN_ATTEMPTS  = 5,
+    LOCK_TIME               = 2 * 60 * 60 * 1000, // Time in miliseconds (2h)
+    reasons                 = null;
 
 var UserSchema = new Schema({
   name: String,
@@ -32,6 +33,8 @@ var UserSchema = new Schema({
 });
 
 UserSchema.pre('save', function(next) {
+  'use strict';
+
   var user = this;
 
   if (!user.isModified('password')) {
@@ -55,6 +58,8 @@ UserSchema.pre('save', function(next) {
 });
 
 UserSchema.methods.comparePasswords = function(candidatePassword, fn) {
+  'use strict';
+
   bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
     if (err) {
       return next(err);
@@ -65,6 +70,8 @@ UserSchema.methods.comparePasswords = function(candidatePassword, fn) {
 };
 
 UserSchema.methods.incrementLoginAttempts = function(fn) {
+  'use strict';
+
   var updates = null;
 
   if (this.lockUntil && this.lockUntil > Date.now()) {
@@ -90,6 +97,8 @@ reasons = UserSchema.statics.failedLogin = {
 };
 
 UserSchema.statics.getAuthenticationStatus = function(username, password, fn) {
+  'use strict';
+
   this.findOne({ username: username }, function(err, user) {
     if (err) {
       return fn(err);
@@ -112,6 +121,8 @@ UserSchema.statics.getAuthenticationStatus = function(username, password, fn) {
 };
 
 UserSchema.virtual('isLocked').get(function() {
+  'use strict';
+
   return !!(this.lockUntil && this.lockUntil > Date.now());
 });
 
