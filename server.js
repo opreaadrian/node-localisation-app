@@ -15,8 +15,8 @@ var express   = require('express'),
 
 
 
-/*
-  Setup for all environments
+/**
+ * Setup for all environments
  */
 app.set('port', process.env.PORT || 8080);
 app.set('views', path.join(__dirname, 'views'));
@@ -35,16 +35,16 @@ app.use(flash()); // Use connect-flash for flash messages that are stored in the
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 
-/*
-  Setup for development environment
+/**
+ * Setup for development environment
  */
 if ('development' === app.get('env')) {
   app.use(express.errorHandler());
   app.use(express.logger('dev'));
 }
 
-/*
-  Start listening for the specified port
+/**
+ *Start listening for the specified port
  */
 server.listen(app.get('port'), function(){
   'use strict';
@@ -52,11 +52,17 @@ server.listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
 
+/**
+ * Declare application routes
+ */
 app.get('/', routes.index);
 app.get('/get-help', gethelp.index);
 app.post('/get-help', gethelp.send);
 
 
+/**
+ * Start realtime communication (socket.io)
+ */
 io.sockets.on('connection', function(socket) {
   'use strict';
 
