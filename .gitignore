@@ -10,3 +10,6 @@ twilio.json
 /workspace/*
 nodelocalisation.sublime-project
 nodelocalisation.sublime-workspace
+
+# Compilation artefacts
+public/stylesheets/style.css

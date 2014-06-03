@@ -2,16 +2,15 @@ var express   = require('express'),
     app       = express(),
     routes    = require('./routes'),
     gethelp   = require('./routes/gethelp'),
+    user      = require('./routes/user'),
     http      = require('http'),
     path      = require('path'),
     server    = http.createServer(app),
     io        = require('socket.io').listen(server),
     ejs       = require('ejs').renderFile,
     mongoose  = require('mongoose'),
-    flash   = require('connect-flash'),
-    passport  = require('passport'),
-    database  = require('./models/database'),
-    User      = require('./models/user');
+    flash     = require('connect-flash'),
+    passport  = require('passport');
 
 
 
@@ -56,8 +55,14 @@ server.listen(app.get('port'), function(){
  * Declare application routes
  */
 app.get('/', routes.index);
+
 app.get('/get-help', gethelp.index);
 app.post('/get-help', gethelp.send);
+
+app.get('/login', user.login);
+app.get('/signup', user.signup);
+app.get('/profile', user.profile);
+
 
 
 /**
