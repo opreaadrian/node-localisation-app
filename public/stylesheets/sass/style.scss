@@ -9,12 +9,22 @@ body {
     position: relative;
   }
 
+  .navigation {
+    margin-bottom: 0;
+  }
+
   .form-wrapper {
     margin-top: 15%;
     background-color: rgba(60,60,60,0.8);
     z-index:1;
   }
 
+
+  .map-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
 
   .map-canvas {
     position: absolute;
