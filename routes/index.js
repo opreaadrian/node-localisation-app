@@ -7,10 +7,9 @@ var fs = require('fs'),
  */
 
 exports.index = function (req, res) {
-
+  'use strict';
   res.render('index', {
     pageTitle: 'Emergency service',
-    title: 'Emergency service',
     scripts: [
       '//maps.googleapis.com/maps/api/js?key=' + mapsApiKey + '&sensor=true',
       'javascripts/mapinit.js'
