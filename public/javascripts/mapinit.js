@@ -1,5 +1,6 @@
+/* globals google */
 // Extra ; in order to prevent concatenation errors when combining with third party plugins
-;(function(window, document, undefined) {
+;(function(window, document, google, undefined) {
 
   'use strict';
 
@@ -19,6 +20,20 @@
 
   });
 
+
+  function _handleMapMouseDown(evt) {
+    evt.target.addEventListener('mousemove', _handleMapMouseMove, false);
+    evt.target.addEventListener('mouseup', _handleMapMouseUp, false);
+  }
+
+  function _handleMapMouseMove(evt) {
+    document.querySelector('.login-panel').classList.add('translucent');
+  }
+
+  function _handleMapMouseUp(evt) {
+    document.querySelector('.login-panel').classList.remove('translucent');
+    evt.target.removeEventListener('mousemove', _handleMapMouseMove);
+  }
   /**
    * @method initializeMap Initializes the google map constructor with the user's current position
    *
@@ -33,10 +48,18 @@
     mapOptions = {
       zoom: 17,
       center: new google.maps.LatLng(coords.latitude, coords.longitude),
+      /**
+       * HACK: This is here for testing purposes and should be added conditionally based on the page
+       * where the map is actually loaded (currently added for "index" page)
+       */
+      disableDefaultUI: true,
       mapTypeId: google.maps.MapTypeId.ROADMAP
     };
 
     mapCanvas = document.querySelector('.map-canvas');
+
+    mapCanvas.addEventListener('mousedown', _handleMapMouseDown, false);
+
     map = new google.maps.Map(mapCanvas, mapOptions);
 
     initializeInfoPanel(map, coords);
@@ -80,5 +103,4 @@
     map.setCenter(pos);
   }
 
-
-})(window, document);
+})(window, document, google);
