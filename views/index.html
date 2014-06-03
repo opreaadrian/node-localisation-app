@@ -1,8 +1,19 @@
 <% include head.html %>
 
 <% include nav.html %>
-  <h1><%= title %></h1>
 
-  <div class="map-canvas"></div>
+  <div class="map-wrapper">
+
+  <div class="jumbotron text-center login-panel">
+    <h1><span class="fa fa-lock"></span>Log In</h1>
+
+    <p>Log in or register with:</p>
+
+    <a href="/login" class="btn btn-default"><span class="fa fa-user"></span> Local Login</a>
+    <a href="/signup" class="btn btn-default"><span class="fa fa-user"></span> Local Signup</a>
+  </div>
+
+    <div class="map-canvas"></div>
+  </div>
 
 <% include footer.html %>
