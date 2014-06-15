@@ -7,4 +7,4 @@ mapsapiconfig.json
 twilio.json
 
 # Compilation artefacts
-public/stylesheets/style.css
+style.css
