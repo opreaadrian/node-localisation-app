@@ -1,18 +1,18 @@
-var express   = require('express'),
-    app       = express(),
-    routes    = require('./routes'),
-    gethelp   = require('./routes/gethelp'),
-    user      = require('./routes/user'),
-    http      = require('http'),
-    path      = require('path'),
-    server    = http.createServer(app),
-    io        = require('socket.io').listen(server),
-    ejs       = require('ejs').renderFile,
-    mongoose  = require('mongoose'),
-    flash     = require('connect-flash'),
-    passport  = require('passport');
+var express  = require('express'),
+    app      = express(),
+    routes   = require('./routes'),
+    gethelp  = require('./routes/gethelp'),
+    user     = require('./routes/user'),
+    http     = require('http'),
+    path     = require('path'),
+    server   = http.createServer(app),
+    io       = require('socket.io').listen(server),
+    ejs      = require('ejs').renderFile,
+    mongoose = require('mongoose'),
+    flash    = require('connect-flash'),
+    passport = require('passport');
 
-
+require('./modules/passport')(passport);
 
 /**
  * Setup for all environments
@@ -60,9 +60,14 @@ app.get('/get-help', gethelp.index);
 app.post('/get-help', gethelp.send);
 
 app.get('/login', user.login);
-app.get('/signup', user.signup);
 app.get('/profile', user.profile);
 
+app.get('/signup', user.signup);
+app.post('/signup', passport.authenticate('local-signup', {
+  successRedirect: '/profile',
+  failureRedirect: '/signup',
+  failureFlash : true
+}));
 
 
 /**
