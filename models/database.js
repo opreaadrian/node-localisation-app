@@ -1,6 +1,6 @@
 var mongoose    = require('mongoose'),
     fs          = require('fs'),
-    credentials = JSON.parse(fs.readFileSync('./db.json'));
+    credentials = JSON.parse(fs.readFileSync('./config/db.json'));
 
 
 function database() {

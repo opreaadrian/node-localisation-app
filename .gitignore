@@ -6,10 +6,5 @@ mapsapiconfig.json
 # Twilio API creds
 twilio.json
 
-# Sublime text workspace
-/workspace/*
-nodelocalisation.sublime-project
-nodelocalisation.sublime-workspace
-
 # Compilation artefacts
 public/stylesheets/style.css
