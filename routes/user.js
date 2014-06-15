@@ -7,7 +7,9 @@ exports.login = function(req, res) {
   'use strict';
 
   res.render('login', {
-    message : req.flash('loginMessage')
+    message   : req.flash('loginMessage'),
+    pageTitle : 'Log In',
+    scripts   : []
   });
 };
 
@@ -19,8 +21,10 @@ exports.login = function(req, res) {
 exports.signup = function(req, res) {
   'use strict';
 
-  res.render('signup', {
-    message : req.flash('signupMessage')
+  res.render('sign-up', {
+    pageTitle : 'Sign up form',
+    message   : req.flash('signupMessage'),
+    scripts   : []
   });
 };
 

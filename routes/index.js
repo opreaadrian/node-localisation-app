@@ -12,10 +12,13 @@ exports.index = function (req, res) {
     pageTitle: 'Emergency service',
     scripts: [
       '//maps.googleapis.com/maps/api/js?key=' + mapsApiKey + '&sensor=true',
-      'javascripts/mapinit.js'
+      'javascripts/mapinit.js',
+      'components/bootstrap/dist/js/bootstrap.js',
+      '//code.createjs.com/tweenjs-0.5.1.min.js'
     ]
   });
 };
+
 var Crypt = require('../modules/cryptModule.js');
 
 // exports.index = function(req, res){
