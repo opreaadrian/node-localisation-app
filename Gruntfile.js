@@ -6,11 +6,11 @@ module.exports = function(grunt) {
     sass: {
       build: {
         options: {
-          style: 'expanded',
+          style        : 'expanded',
           // sourcemap: true,
-          debugInfo: true,
-          unixNewlines: true,
-          trace: true
+          debugInfo    : true,
+          unixNewlines : true,
+          trace        : true
         },
 
         files: {
