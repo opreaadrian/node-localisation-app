@@ -1,39 +1,39 @@
 /* global next */
-var mongoose                = require('mongoose'),
-    database                = require('./database'),
-    bcrypt                  = require('bcrypt'),
-    Schema                  = mongoose.Schema,
-    SALT_WORK_FACTOR        = 10,
-    MAXIMUM_LOGIN_ATTEMPTS  = 5,
-    LOCK_TIME               = 2 * 60 * 60 * 1000, // Time in miliseconds (2h)
-    reasons                 = null;
+var mongoose               = require('mongoose'),
+    database               = require('./database')(),
+    bcrypt                 = require('bcrypt'),
+    Schema                 = mongoose.Schema,
+    SALT_WORK_FACTOR       = 10,
+    MAXIMUM_LOGIN_ATTEMPTS = 5,
+    LOCK_TIME              = 2 * 60 * 60 * 1000, // Time in miliseconds (2h)
+    reasons                = null;
 
 var UserSchema = new Schema({
 
-  local           : {
-    email         : String,
-    password      : String
+  local         : {
+    email       : String,
+    password    : String
   },
-  facebook        : {
-    id            : String,
-    token         : String,
-    email         : String,
-    name          : String
+  facebook      : {
+    id          : String,
+    token       : String,
+    email       : String,
+    name        : String
   },
-  twitter         : {
-    id            : String,
-    token         : String,
-    displayName   : String,
-    username      : String
+  twitter       : {
+    id          : String,
+    token       : String,
+    displayName : String,
+    username    : String
   },
-  loginAttempts   : {
-    type          : Number,
-    required      : true,
-    default       : 0
+  loginAttempts : {
+    type        : Number,
+    required    : true,
+    default     : 0
   },
 
-  lockUntil       : {
-    type          : Number
+  lockUntil     : {
+    type        : Number
   }
 
 });
@@ -97,9 +97,9 @@ UserSchema.methods.incrementLoginAttempts = function(fn) {
 };
 
 reasons = UserSchema.statics.failedLogin = {
-  NOT_FOUND: 0,
-  PASSWORD_INCORRECT: 1,
-  MAXIMUM_ATTEMPTS_EXCEEDED: 2
+  NOT_FOUND                 : 0,
+  PASSWORD_INCORRECT        : 1,
+  MAXIMUM_ATTEMPTS_EXCEEDED : 2
 };
 
 UserSchema.statics.getAuthenticationStatus = function(username, password, fn) {
