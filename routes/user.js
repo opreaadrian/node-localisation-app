@@ -38,7 +38,8 @@ exports.profile = function(req, res){
   'use strict';
 
   res.render('profile', {
-    user : req.user
+    pageTitle: 'Profile page',
+    scripts: []
   });
 };
 

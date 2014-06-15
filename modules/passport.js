@@ -26,6 +26,9 @@ module.exports = function(passport) {
     });
   });
 
+  /**
+   * Local registration strategy configuration
+   */
   passport.use('local-signup',
     new LocalStrategy({
       usernameField       : 'email',
@@ -56,6 +59,45 @@ module.exports = function(passport) {
           }
         });
       });
-    })
-    );
+    }));
+
+  /**
+   * Facebook registration strategy configuration
+   */
+  passport.use(new FacebookStrategy({
+
+    clientID     : authConfig.facebookAuth.clientID,
+    clientSecret : authConfig.facebookAuth.clientSecret,
+    callbackURL  : authConfig.facebookAuth.callbackURL
+    
+  }, function(token, refreshToken, profile, done) {
+    process.nextTick(function() {
+      User.findOne({'facebook.id' : profile.id}, function(err, user) {
+        if (err) {
+          return done(err);
+        }
+
+        if (user) {
+          return done(null, user);
+        } else {
+          var newUser = new User();
+
+          newUser.facebook.id    = profile.id;
+          newUser.facebook.token = token;
+          newUser.facebook.name  = profile.name.givenName + ' ' + profile.name.familyName;
+          newUser.facebook.email = profile.emails[0].value;
+
+          newUser.save(function(err) {
+            if (err) {
+              throw err;
+            }
+            
+            return done(null, newUser);
+          });
+
+        }
+      });
+    });
+  }));
+
 };

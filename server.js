@@ -62,12 +62,29 @@ app.post('/get-help', gethelp.send);
 app.get('/login', user.login);
 app.get('/profile', user.profile);
 
+/**
+ * Local auth routes
+ * TODO Should be moved to separate routes module 
+ */
 app.get('/signup', user.signup);
 app.post('/signup', passport.authenticate('local-signup', {
   successRedirect: '/profile',
   failureRedirect: '/signup',
   failureFlash : true
 }));
+
+/**
+ * Facebook auth routes
+ * TODO Should be moved to separate routes module 
+ */
+app.get('/auth/facebook', passport.authenticate('facebook', {scope: 'email'}));
+
+app.get('/auth/facebook/callback', passport.authenticate('facebook', {
+  successRedirect : '/profile',
+  failureRedirect : '/'
+}));
+
+app.get('/logout', user.logout);
 
 
 /**
