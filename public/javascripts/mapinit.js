@@ -20,7 +20,6 @@
 
   });
 
-
   function _handleMapMouseDown(evt) {
     evt.target.addEventListener('mousemove', _handleMapMouseMove, false);
     evt.target.addEventListener('mouseup', _handleMapMouseUp, false);

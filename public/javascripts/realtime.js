@@ -1,6 +1,7 @@
+/* global io */
 var socket = io.connect('http://localhost:8080');
 socket.on('connected', function(data) {
-
+  'use strict';
     var hasGeo = 'geolocation' in window.navigator;
 
     function showData(position) {
