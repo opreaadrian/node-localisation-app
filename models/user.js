@@ -26,6 +26,12 @@ var UserSchema = new Schema({
     displayName : String,
     username    : String
   },
+  google        : {
+    id          : String,
+    token       : String,
+    name        : String,
+    email       : String
+  },
   loginAttempts : {
     type        : Number,
     required    : true,

@@ -1,6 +1,7 @@
 var LocalStrategy    = require('passport-local').Strategy,
     FacebookStrategy = require('passport-facebook').Strategy,
     TwitterStrategy  = require('passport-twitter').Strategy,
+    GoogleStrategy   = require('passport-google-oauth').OAuth2Strategy,
     User             = require('./../models/user'),
     authConfig       = require('./../config/auth');
 
@@ -70,7 +71,7 @@ module.exports = function(passport) {
     clientID     : authConfig.facebookAuth.clientID,
     clientSecret : authConfig.facebookAuth.clientSecret,
     callbackURL  : authConfig.facebookAuth.callbackURL
-    
+
   }, function(token, refreshToken, profile, done) {
     process.nextTick(function() {
       User.findOne({'facebook.id' : profile.id}, function(err, user) {
@@ -92,7 +93,7 @@ module.exports = function(passport) {
             if (err) {
               throw err;
             }
-            
+
             return done(null, newUser);
           });
 
@@ -110,7 +111,7 @@ module.exports = function(passport) {
     consumerKey    : authConfig.twitterAuth.consumerKey,
     consumerSecret : authConfig.twitterAuth.consumerSecret,
     callbackURL    : authConfig.twitterAuth.callbackURL
-    
+
   }, function(token, refreshToken, profile, done) {
     process.nextTick(function() {
       User.findOne({'twitter.id' : profile.id}, function(err, user) {
@@ -132,7 +133,7 @@ module.exports = function(passport) {
             if (err) {
               throw err;
             }
-            
+
             return done(null, newUser);
           });
 
@@ -141,5 +142,44 @@ module.exports = function(passport) {
     });
   }));
 
+  /**
+   * Google auth strategy configuration
+   */
+
+  passport.use(new GoogleStrategy({
+
+    clientID     : authConfig.googleAuth.clientID,
+    clientSecret : authConfig.googleAuth.clientSecret,
+    callbackURL  : authConfig.googleAuth.callbackURL
+
+  }, function(token, refreshToken, profile, done) {
+    process.nextTick(function() {
+      User.findOne({'google.id' : profile._json.id}, function(err, user) {
+        if (err) {
+          return done(err);
+        }
+
+        if (user) {
+          return done(null, user);
+        } else {
+          var newUser = new User();
+
+          newUser.google.id    = profile.id;
+          newUser.google.token = token;
+          newUser.google.name  = profile.displayName;
+          newUser.google.email = profile.emails[0].value;
+
+          newUser.save(function(err) {
+            if (err) {
+              throw err;
+            }
+
+            return done(null, newUser);
+          });
+
+        }
+      });
+    });
+  }));
 
 };

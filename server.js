@@ -64,7 +64,7 @@ app.get('/profile', user.profile);
 
 /**
  * Local auth routes
- * TODO Should be moved to separate routes module 
+ * TODO Should be moved to separate routes module
  */
 app.get('/signup', user.signup);
 app.post('/signup', passport.authenticate('local-signup', {
@@ -75,7 +75,7 @@ app.post('/signup', passport.authenticate('local-signup', {
 
 /**
  * Facebook auth routes
- * TODO Should be moved to separate routes module 
+ * TODO Should be moved to separate routes module
  */
 app.get('/auth/facebook', passport.authenticate('facebook', {scope: 'email'}));
 
@@ -86,11 +86,29 @@ app.get('/auth/facebook/callback', passport.authenticate('facebook', {
 
 /**
  * Twitter auth routes
- * TODO Should be moved to separate routes module 
+ * TODO Should be moved to separate routes module
  */
 app.get('/auth/twitter', passport.authenticate('twitter'));
 
 app.get('/auth/twitter/callback', passport.authenticate('twitter', {
+  successRedirect : '/profile',
+  failureRedirect : '/'
+}));
+
+/**
+ * Google auth routes
+ * TODO Should be moved to separate routes module
+ */
+app.get('/auth/google', passport.authenticate('google', {
+  scope: [
+    'https://www.googleapis.com/auth/userinfo.profile',
+    'https://www.googleapis.com/auth/userinfo.email'
+  ]
+}),
+  function(req, res) {
+  });
+
+app.get('/auth/google/callback', passport.authenticate('google', {
   successRedirect : '/profile',
   failureRedirect : '/'
 }));
