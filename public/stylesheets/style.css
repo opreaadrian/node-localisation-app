@@ -7,26 +7,46 @@ body {
 body .main {
   width: 100%;
   height: 100%;
-  margin: 0 auto;
   position: relative;
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/adrianoprea\/Documents\/Projects\/node-localisation\/public\/stylesheets\/sass\/style\.scss}line{font-family:\0000312}}
+body .login-panel,
 body .navigation {
   margin-bottom: 0;
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/adrianoprea\/Documents\/Projects\/node-localisation\/public\/stylesheets\/sass\/style\.scss}line{font-family:\0000316}}
+body .translucent {
+  position: relative;
+  opacity: 0;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/adrianoprea\/Documents\/Projects\/node-localisation\/public\/stylesheets\/sass\/style\.scss}line{font-family:\0000321}}
+body .brand-bg {
+  background-color: tomato;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/adrianoprea\/Documents\/Projects\/node-localisation\/public\/stylesheets\/sass\/style\.scss}line{font-family:\0000325}}
+body .brand-color {
+  color: tomato;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/adrianoprea\/Documents\/Projects\/node-localisation\/public\/stylesheets\/sass\/style\.scss}line{font-family:\0000329}}
+body .login-panel {
+  background-color: #fff;
+  transition: all 0.3s ease-in-out;
+  position: relative;
+  z-index: 1;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/adrianoprea\/Documents\/Projects\/node-localisation\/public\/stylesheets\/sass\/style\.scss}line{font-family:\0000336}}
 body .form-wrapper {
   margin-top: 15%;
   background-color: rgba(60, 60, 60, 0.8);
   z-index: 1;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/adrianoprea\/Documents\/Projects\/node-localisation\/public\/stylesheets\/sass\/style\.scss}line{font-family:\0000323}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/adrianoprea\/Documents\/Projects\/node-localisation\/public\/stylesheets\/sass\/style\.scss}line{font-family:\0000343}}
 body .map-wrapper {
   position: relative;
   width: 100%;
   height: 100%;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/adrianoprea\/Documents\/Projects\/node-localisation\/public\/stylesheets\/sass\/style\.scss}line{font-family:\0000329}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/adrianoprea\/Documents\/Projects\/node-localisation\/public\/stylesheets\/sass\/style\.scss}line{font-family:\0000349}}
 body .map-canvas {
   position: absolute;
   top: 0;
@@ -36,7 +56,7 @@ body .map-canvas {
   z-index: 0;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/adrianoprea\/Documents\/Projects\/node-localisation\/public\/stylesheets\/sass\/style\.scss}line{font-family:\0000340}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/adrianoprea\/Documents\/Projects\/node-localisation\/public\/stylesheets\/sass\/style\.scss}line{font-family:\0000360}}
 html, body {
   height: 100%;
   margin: 0;
