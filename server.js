@@ -2,7 +2,6 @@ var express  = require('express'),
     app      = express(),
     routes   = require('./routes'),
     gethelp  = require('./routes/gethelp'),
-    user     = require('./routes/user'),
     http     = require('http'),
     path     = require('path'),
     server   = http.createServer(app),
@@ -11,7 +10,7 @@ var express  = require('express'),
     mongoose = require('mongoose'),
     flash    = require('connect-flash'),
     passport = require('passport');
-
+    
 require('./modules/passport')(passport);
 
 /**
@@ -28,9 +27,9 @@ app.use(express.methodOverride());
 app.use(express.bodyParser());
 app.use(express.cookieParser());
 app.use(express.session({secret: 'somethingsinlifemanjustdontchange'}));
+app.use(flash()); // Use connect-flash for flash messages that are stored in the session
 app.use(passport.initialize());
 app.use(passport.session());  // Persistent login sessions
-app.use(flash()); // Use connect-flash for flash messages that are stored in the session
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -59,14 +58,35 @@ app.get('/', routes.index);
 app.get('/get-help', gethelp.index);
 app.post('/get-help', gethelp.send);
 
-app.get('/login', user.login);
-app.get('/profile', user.profile);
+
+app.get('/login', function(req, res) {
+  'use strict';
+  res.render('login', {
+    message   : req.flash('loginMessage'),
+    pageTitle : 'Log In',
+    scripts   : []
+  });
+});
+
+app.post('/login', passport.authenticate('local-login', {
+  successRedirect : '/profile', // redirect to the secure profile section
+  failureRedirect : '/login', // redirect back to the signup page if there is an error
+  failureFlash : true // allow flash messages
+}));
 
 /**
  * Local auth routes
  * TODO Should be moved to separate routes module
  */
-app.get('/signup', user.signup);
+app.get('/signup', function(req, res) {
+  'use strict';
+  res.render('sign-up', {
+    pageTitle : 'Sign up form',
+    message   : req.flash('signupMessage'),
+    scripts   : []
+  });
+});
+
 app.post('/signup', passport.authenticate('local-signup', {
   successRedirect : '/profile',
   failureRedirect : '/signup',
@@ -74,46 +94,25 @@ app.post('/signup', passport.authenticate('local-signup', {
 }));
 
 /**
- * Facebook auth routes
- * TODO Should be moved to separate routes module
+ * Local authorization (account linking)
  */
-app.get('/auth/facebook', passport.authenticate('facebook', {scope: 'email'}));
+app.get('/connect/local', function(req, res) {
 
-app.get('/auth/facebook/callback', passport.authenticate('facebook', {
-  successRedirect : '/profile',
-  failureRedirect : '/'
-}));
-
-/**
- * Twitter auth routes
- * TODO Should be moved to separate routes module
- */
-app.get('/auth/twitter', passport.authenticate('twitter'));
-
-app.get('/auth/twitter/callback', passport.authenticate('twitter', {
-  successRedirect : '/profile',
-  failureRedirect : '/'
-}));
-
-/**
- * Google auth routes
- * TODO Should be moved to separate routes module
- */
-app.get('/auth/google', passport.authenticate('google', {
-  scope: [
-    'https://www.googleapis.com/auth/userinfo.profile',
-    'https://www.googleapis.com/auth/userinfo.email'
-  ]
-}),
-  function(req, res) {
+  'use strict';
+  res.render('connect-local', {
+    message: req.flash('loginMessage'),
+    pageTitle: 'Local connection',
+    scripts: []
   });
+});
 
-app.get('/auth/google/callback', passport.authenticate('google', {
+app.post('/connect/local', passport.authenticate('local-signup', {
   successRedirect : '/profile',
-  failureRedirect : '/'
+  failureRedirect : '/connect/local',
+  failureFlash    : true
 }));
 
-app.get('/logout', user.logout);
+require('./routes/user')(app, passport);
 
 
 /**
@@ -127,3 +126,4 @@ io.sockets.on('connection', function(socket) {
     console.log(data);
   });
 });
+
