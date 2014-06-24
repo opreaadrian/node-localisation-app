@@ -1,69 +1,112 @@
-/**
- * @method login
- *
- * Login route handler. Renders the login page when a GET request is made to the '/login' route
- *
- * @param  {Object} req The request object
- * @param  {Object} res The response object
- */
-exports.login = function(req, res) {
+module.exports = function(app, passport) {
+
   'use strict';
 
-  res.render('login', {
-    message   : req.flash('loginMessage'),
-    pageTitle : 'Log In',
-    scripts   : []
+
+  app.get('/profile', isLoggedIn, function(req, res){
+
+    res.render('profile', {
+      pageTitle: 'Profile page',
+      user: req.user,
+      scripts: []
+    });
   });
-};
 
-/**
- * @method signup
- *
- * Sign up route handler. Renders the login page when a GET request is made to the'/sign-up' route
- *
- * @param  {Object} req The request object
- * @param  {Object} res The response object
- */
-exports.signup = function(req, res) {
-  'use strict';
+  /**
+   * ====================
+   * Authentication routes
+   * ====================
+   */
 
-  res.render('sign-up', {
-    pageTitle : 'Sign up form',
-    message   : req.flash('signupMessage'),
-    scripts   : []
+
+  /**
+   * Facebook auth routes
+   * TODO Should be moved to separate routes module
+   */
+  app.get('/auth/facebook', passport.authenticate('facebook', {scope: 'email'}));
+
+  app.get('/auth/facebook/callback', passport.authenticate('facebook', {
+      successRedirect : '/profile',
+      failureRedirect : '/'
+    }));
+
+  /**
+   * Twitter auth routes
+   * TODO Should be moved to separate routes module
+   */
+  app.get('/auth/twitter', passport.authenticate('twitter'));
+
+  app.get('/auth/twitter/callback', passport.authenticate('twitter', {
+    successRedirect : '/profile',
+    failureRedirect : '/'
+  }));
+
+  /**
+   * Google auth routes
+   * TODO Should be moved to separate routes module
+   */
+  app.get('/auth/google', passport.authenticate('google', { scope: [ 'profile', 'email'] }));
+
+  app.get('/auth/google/callback', passport.authenticate('google', {
+    successRedirect : '/profile',
+    failureRedirect : '/'
+  }));
+
+  app.get('/logout', function(req, res) {
+
+    req.logout();
+    res.redirect('/');
   });
-};
 
-/**
- * @method profile
- *
- * @description Profile route handler. Renders the profile page whenever a successful authentication occurs or
- * a successful user registration takes place
- *
- * @param  {Object} req The request object
- * @param  {Object} res The response object
- */
-exports.profile = function(req, res){
-  'use strict';
+  /**
+   * ====================
+   * Authorization routes
+   * ====================
+   */
 
-  res.render('profile', {
-    pageTitle: 'Profile page',
-    scripts: []
+
+  /**
+   * Facebook authorization (account linking)
+   */
+  app.get('/connect/facebook', passport.authorize('facebook', {scope: 'email'}));
+
+  /**
+   * Twitter authorization (account linking)
+   */
+  app.get('/connect/twitter', passport.authorize('twitter', {scope: 'email'}));
+
+  /**
+   * Google+ authorization (account linking)
+   */
+  app.get('/connect/google', passport.authorize('google', {scope: ['profile', 'email']}));
+
+  app.get('/unlink/:account', function(req, res) {
+    'use strict';
+
+    var user = req.user,
+        account = req.params.account;
+
+    if (account == 'local') {
+      user.local.email = undefined;
+      user.local.password = undefined;
+    } else {
+      user[account].token = undefined;
+    }
+
+    user.save(function(err) {
+      res.redirect('/profile');
+    });
   });
+  // route middleware to ensure user is logged in
+  function isLoggedIn(req, res, next) {
+
+    if (req.isAuthenticated()) {
+      return next();
+    }
+
+    res.redirect('/');
+  }
+
 };
 
-/**
- * @method logout
- *
- * @description Profile route handler. Renders the profile page whenever a successful authentication occurs or
- * a successful user registration takes place
- *
- * @param  {Object} req The request object
- * @param  {Object} res The response object
- */
-exports.logout = function(req, res) {
-  'use strict';
 
-  req.logout();
-  res.redirect('/');
-};

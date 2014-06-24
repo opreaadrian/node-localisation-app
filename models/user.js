@@ -10,32 +10,35 @@ var mongoose               = require('mongoose'),
 
 var UserSchema = new Schema({
 
-  local         : {
-    email       : String,
-    password    : String
+  local          : {
+    email        : String,
+    password     : String
   },
-  facebook      : {
-    id          : String,
-    token       : String,
-    email       : String,
-    name        : String
+  facebook       : {
+    id           : String,
+    token        : String,
+    email        : String,
+    name         : String,
+    profileImage : String
   },
-  twitter       : {
-    id          : String,
-    token       : String,
-    displayName : String,
-    username    : String
+  twitter        : {
+    id           : String,
+    token        : String,
+    displayName  : String,
+    username     : String,
+    profileImage : String
   },
-  google        : {
-    id          : String,
-    token       : String,
-    name        : String,
-    email       : String
+  google         : {
+    id           : String,
+    token        : String,
+    name         : String,
+    email        : String,
+    profileImage : String
   },
-  loginAttempts : {
-    type        : Number,
-    required    : true,
-    default     : 0
+  loginAttempts  : {
+    type         : Number,
+    required     : true,
+    default      : 0
   },
 
   lockUntil     : {
@@ -44,41 +47,16 @@ var UserSchema = new Schema({
 
 });
 
-UserSchema.pre('save', function(next) {
+// generating a hash
+UserSchema.methods.generateHash = function(password) {
   'use strict';
+    return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
+};
 
-  var user = this;
-
-  if (!user.isModified('password')) {
-    return next();
-  }
-
-  bcrypt.genSalt(SALT_WORK_FACTOR, function(err, salt) {
-    if (err) {
-      return next(err);
-    }
-
-    bcrypt.hash(user.local.password, salt, function(err, hash) {
-      if (err) {
-        return next(err);
-      }
-
-      user.local.password = hash;
-      next();
-    });
-  });
-});
-
-UserSchema.methods.comparePasswords = function(candidatePassword, fn) {
+// checking if password is valid
+UserSchema.methods.validPassword = function(password) {
   'use strict';
-
-  bcrypt.compare(candidatePassword, this.local.password, function(err, isMatch) {
-    if (err) {
-      return next(err);
-    }
-
-    fn(null, isMatch);
-  });
+    return bcrypt.compareSync(password, this.local.password);
 };
 
 UserSchema.methods.incrementLoginAttempts = function(fn) {
