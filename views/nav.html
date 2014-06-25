@@ -1,7 +1,7 @@
 <nav class="navbar navbar-inverse navigation navbar-static-top" role="navigation">
   <div class="container container-fluid">
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#sample-target-id">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#app-nav">
         <span class="sr-only">Toggle navigation</span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
@@ -11,9 +11,19 @@
       <a href="/" class="navbar-brand"><span class="fa fa-location-arrow"></span> TrackR</a>
     </div>
 
-    <div class="collapse navbar-collapse" id="sample-target-id">
+    <div class="collapse navbar-collapse" id="app-nav">
       <ul class="nav navbar-nav">
-        <li class="active"><a class="" href="/login">Log in/Register</a></li>
+        <li>
+          <% if (session.passport.user) {%>
+            <a class="" href="/profile">
+                Profile
+            </a>
+          <% } else {%>
+            <a class="" href="/profile">
+              Log in/Register
+            </a>
+          <% } %>
+        </li>
         <li><a class="" href="/get-help">Get help</a></li>
       </ul>
 

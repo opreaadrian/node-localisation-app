@@ -2,21 +2,16 @@
 <% include nav.html %>
 <div class="map-wrapper">
 
-  <div class="jumbotron text-center login-panel">
-    <h1><span class="fa fa-location-arrow brand-color"></span> Track<span class="brand-color">R</span></h1>
-    <p>Log in or register</p>
-    <a href="/login" class="btn btn-default"><span class="fa fa-lock"></span> Local Login</a>
-    <a href="/auth/facebook" class="btn btn-primary"><span class="fa fa-facebook"></span> Facebook</a>
-    <a href="/auth/twitter" class="btn btn-info"><span class="fa fa-twitter"></span> Twitter</a>
-    <a href="/auth/google" class="btn btn-danger"><span class="fa fa-google-plus"></span> Google+</a>
-    <a href="/signup" class="btn btn-default"><span class="fa fa-user"></span> Local Signup</a>
-  </div>
+  <% if (!session.passport.user) { %>
+  <% include login/login-panel.html %>
+  <% } %>
+
+  <!-- This should be integrated via a frontend framework
 
   <script type="text/html" id="loginForm">
     <div class="jumbotron login-panel clearfix">
       <div class="col-sm-6 col-sm-offset-3">
         <h1><span class="fa fa-sign-in"></span> Login</h1>
-        <!-- LOGIN FORM -->
         <form action="/login" method="post">
           <div class="form-group">
             <label>Email</label>
@@ -34,6 +29,10 @@
       </div>
     </div>
   </script>
+  -->
   <div class="map-canvas"></div>
 </div>
+<script>
+  var userProfileImage = "<%= session.passport.user && user.get('google').profileImage || '' %>";
+</script>
 <% include footer.html %>
