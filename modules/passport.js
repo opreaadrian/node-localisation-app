@@ -18,7 +18,7 @@ module.exports = function(passport) {
 
   /**
    * @method deserializeUser Converts the string representation of a user from the database to an actual
-   * JavaScript object, which properties are easier to access.
+   * JavaScript object, whose properties are easier to access.
    * @param  {String}   id The User ID for which the configuration needs to be retrieved
    * @param  {Function} done The callback that getsexecuted once the operation completed
    */
