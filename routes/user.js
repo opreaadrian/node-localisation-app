@@ -8,6 +8,7 @@ module.exports = function(app, passport) {
     res.render('profile', {
       pageTitle: 'Profile page',
       user: req.user,
+      session: req.session,
       scripts: []
     });
   });
@@ -81,7 +82,6 @@ module.exports = function(app, passport) {
   app.get('/connect/google', passport.authorize('google', {scope: ['profile', 'email']}));
 
   app.get('/unlink/:account', function(req, res) {
-    'use strict';
 
     var user = req.user,
         account = req.params.account;

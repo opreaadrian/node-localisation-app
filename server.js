@@ -61,8 +61,10 @@ app.post('/get-help', gethelp.send);
 
 app.get('/login', function(req, res) {
   'use strict';
+
   res.render('login', {
     message   : req.flash('loginMessage'),
+    session   : req.session,
     pageTitle : 'Log In',
     scripts   : []
   });
@@ -80,8 +82,10 @@ app.post('/login', passport.authenticate('local-login', {
  */
 app.get('/signup', function(req, res) {
   'use strict';
+
   res.render('sign-up', {
     pageTitle : 'Sign up form',
+    session   : req.session,
     message   : req.flash('signupMessage'),
     scripts   : []
   });
@@ -100,9 +104,10 @@ app.get('/connect/local', function(req, res) {
 
   'use strict';
   res.render('connect-local', {
-    message: req.flash('loginMessage'),
-    pageTitle: 'Local connection',
-    scripts: []
+    message   : req.flash('loginMessage'),
+    session   : req.session,
+    pageTitle : 'Local connection',
+    scripts   : []
   });
 });
 

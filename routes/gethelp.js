@@ -7,6 +7,8 @@ exports.index = function(req, res) {
 
   res.render('get-help', {
     pageTitle       : 'Get help',
+    session         : req.session,
+    user            : req.user,
     noform          : false,
     labelText       : 'Phone no.',
     placeholderText : 'Enter your phone no.',
@@ -38,6 +40,8 @@ exports.send = function(req, res) {
 
   res.render('get-help', {
     pageTitle : 'Get help',
+    session   : req.session,
+    user      : req.user,
     noform    : true,
     message   : 'You will be contacted shortly!',
     scripts   : [
