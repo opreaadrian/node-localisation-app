@@ -90,14 +90,18 @@
 
     infoWindow = new google.maps.InfoWindow({
       content: '<div class="container ">' +
-        '<span>Latitude: </span>' +
+        (window.userProfileImage ? '<div><img class="profile-image img-thumbnail img-circle" src="' + window.userProfileImage +'"></div>' : '') +
+        '<strong>Latitude: </strong>' +
         coords.latitude +
-        '<br> <span>Longitude: </span> ' +
+        '<br> <strong>Longitude: </strong> ' +
         coords.longitude +
         '<br><br>' +
         '<a class="more-info btn btn-info" href="#">Detailed info</a>' +
         '</div>',
+      maxWidth: 200
     });
+
+    infoWindow.open(marker.get('map'), marker);
 
     google.maps.event.addListener(marker, 'click', function() {
       infoWindow.open(marker.get('map'), marker);
