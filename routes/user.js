@@ -5,7 +5,7 @@ module.exports = function(app, passport) {
 
   app.get('/profile', isLoggedIn, function(req, res){
 
-    res.render('profile', {
+    res.render('account/profile', {
       pageTitle: 'Profile page',
       user: req.user,
       session: req.session,

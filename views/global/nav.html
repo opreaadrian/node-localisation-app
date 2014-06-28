@@ -13,18 +13,14 @@
 
     <div class="collapse navbar-collapse" id="app-nav">
       <ul class="nav navbar-nav">
-        <li>
-          <% if (session.passport.user) {%>
-            <a class="" href="/profile">
-                Profile
-            </a>
-          <% } else {%>
-            <a class="" href="/profile">
-              Log in/Register
-            </a>
-          <% } %>
-        </li>
         <li><a class="" href="/get-help">Get help</a></li>
+        <% if (session.passport.user) {%>
+        <li>
+          <a class="" href="/profile">
+              Profile
+          </a>
+        </li>
+        <% } %>
       </ul>
 
       <form class="navbar-form navbar-right" role="search">

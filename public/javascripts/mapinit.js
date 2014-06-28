@@ -53,7 +53,7 @@
        * HACK: This is here for testing purposes and should be added conditionally based on the page
        * where the map is actually loaded (currently added for "index" page)
        */
-      disableDefaultUI: true,
+      disableDefaultUI: false,
       mapTypeId: google.maps.MapTypeId.ROADMAP
     };
 
@@ -89,15 +89,14 @@
     });
 
     infoWindow = new google.maps.InfoWindow({
-      content: '<div class="container ">' +
+      content:
         (window.userProfileImage ? '<div><img class="profile-image img-thumbnail img-circle" src="' + window.userProfileImage +'"></div>' : '') +
         '<strong>Latitude: </strong>' +
         coords.latitude +
         '<br> <strong>Longitude: </strong> ' +
         coords.longitude +
         '<br><br>' +
-        '<a class="more-info btn btn-info" href="#">Detailed info</a>' +
-        '</div>',
+        '<button class="more-info btn btn-info" data-toggle="modal" data-target="#myModal">Detailed info</button>',
       maxWidth: 200
     });
 

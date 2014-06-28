@@ -10,7 +10,7 @@ var express  = require('express'),
     mongoose = require('mongoose'),
     flash    = require('connect-flash'),
     passport = require('passport');
-    
+
 require('./modules/passport')(passport);
 
 /**
@@ -62,7 +62,7 @@ app.post('/get-help', gethelp.send);
 app.get('/login', function(req, res) {
   'use strict';
 
-  res.render('login', {
+  res.render('login/login', {
     message   : req.flash('loginMessage'),
     session   : req.session,
     pageTitle : 'Log In',
@@ -83,7 +83,7 @@ app.post('/login', passport.authenticate('local-login', {
 app.get('/signup', function(req, res) {
   'use strict';
 
-  res.render('sign-up', {
+  res.render('registration/sign-up', {
     pageTitle : 'Sign up form',
     session   : req.session,
     message   : req.flash('signupMessage'),
@@ -103,7 +103,7 @@ app.post('/signup', passport.authenticate('local-signup', {
 app.get('/connect/local', function(req, res) {
 
   'use strict';
-  res.render('connect-local', {
+  res.render('registration/connect-local', {
     message   : req.flash('loginMessage'),
     session   : req.session,
     pageTitle : 'Local connection',

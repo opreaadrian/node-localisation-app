@@ -15,6 +15,7 @@ exports.index = function(req, res) {
     buttonText      : 'Go!',
     scripts         : [
       '//maps.googleapis.com/maps/api/js?key=' + mapsApiKey + '&sensor=true',
+      'components/bootstrap/js/popover.js',
       'javascripts/mapinit.js'
     ]
   });
@@ -46,6 +47,7 @@ exports.send = function(req, res) {
     message   : 'You will be contacted shortly!',
     scripts   : [
       '//maps.googleapis.com/maps/api/js?key=' + mapsApiKey + '&sensor=true',
+      'components/bootstrap/js/popover.js',
       'javascripts/mapinit.js'
     ]
   });

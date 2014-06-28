@@ -1,9 +1,12 @@
 <% include head.html %>
 <% include nav.html %>
+<% if (session.passport.user) { %>
+  <% include ../infopanel.html %>
+<% } %>
 <div class="map-wrapper">
 
   <% if (!session.passport.user) { %>
-  <% include login/login-panel.html %>
+  <% include ../login/login-panel.html %>
   <% } %>
 
   <!-- This should be integrated via a frontend framework
