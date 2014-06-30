@@ -42,13 +42,23 @@
    * terms of latitude / longitude -- obtained from HTML5 geolocation API
    */
   function initializeMap(coords) {
-    var mapOptions,
-      mapCanvas,
-      map;
+    var mapOptions = {},
+      mapCanvas = null,
+      map = null,
+      geocoder = null,
+      coordinateSystemSelect = document.querySelector('#coordinate-system'),
+      latLng = new google.maps.LatLng(coords.latitude, coords.longitude),
+      coordinatesView = document.querySelector('.coordinates-view'),
+      locationInfo = document.querySelector('.location-info');
+
+    coordinatesView.innerHTML = '<strong>Latitude</strong>: <span>' +
+                                coords.latitude + '</span><br>'+
+                                '<strong>Longitude</strong>: <span>' +
+                                coords.longitude + '</span>';
 
     mapOptions = {
       zoom: 17,
-      center: new google.maps.LatLng(coords.latitude, coords.longitude),
+      center: latLng,
       /**
        * HACK: This is here for testing purposes and should be added conditionally based on the page
        * where the map is actually loaded (currently added for "index" page)
@@ -63,6 +73,71 @@
 
     map = new google.maps.Map(mapCanvas, mapOptions);
 
+    geocoder = new google.maps.Geocoder();
+
+    geocoder.geocode({
+      latLng: latLng
+    }, function(results, status) {
+
+      if (status == google.maps.GeocoderStatus.OK) {
+        if (results && results.length) {
+
+
+          locationInfo.innerHTML = '<strong>Approximate address</strong><span> ' +
+                                    results[0].formatted_address + '</span><br>' +
+                                    '<strong>County</strong><span> ' +
+                                    results[0].address_components[4].long_name +
+                                    '(' + results[0].address_components[4].short_name + ')</span>';
+        }
+      }
+    });
+
+    function calculateDMS() {
+      var latDegrees = 0,
+          latMinutes = 0,
+          latSeconds = 0,
+          longDegrees = 0,
+          longMinutes = 0,
+          longSeconds = 0,
+          intermediaryUnit = 0;
+
+      latDegrees = parseInt(coords.latitude, 10);
+      intermediaryUnit = (coords.latitude % 1 * 60);
+      latMinutes = parseInt(intermediaryUnit, 10);
+      latSeconds = intermediaryUnit % 1 * 60;
+      longDegrees = parseInt(coords.longitude, 10);
+      intermediaryUnit = (coords.longitude % 1 * 60);
+      longMinutes = parseInt(intermediaryUnit, 10);
+      longSeconds = intermediaryUnit % 1 * 60;
+
+      coordinatesView.innerHTML = '<strong>Latitude</strong>: ' + latDegrees +
+                                '&deg; ' + latMinutes + '" ' +
+                                latSeconds + '\'' + '</strong><br>' +
+                                '<strong>Longitude</strong>: ' +
+                                longDegrees + '&deg; ' +
+                                longMinutes + '" ' +
+                                longSeconds + '\'';
+    }
+
+    function addLatLng() {
+      coordinatesView.innerHTML = '<strong>Latitude</strong>: <span>' +
+                                  coords.latitude + '</span><br>'+
+                                  '<strong>Longitude</strong>: <span>' +
+                                  coords.longitude + '</span>';
+    }
+
+    coordinateSystemSelect.addEventListener('change', function(e) {
+      switch (e.target.value) {
+        case 'dms':
+          calculateDMS();
+          break;
+        case 'latlng':
+          addLatLng();
+          break;
+
+
+      }
+    }, false);
     initializeInfoPanel(map, coords);
   }
 
