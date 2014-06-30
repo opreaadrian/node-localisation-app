@@ -3,22 +3,24 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel">Location details</h4>
       </div>
 
         <div class="modal-body">
-        <div class="user-info clearfix">
-          <img class="pull-left img-thumbnail img-circle" src="<%= user.get('google').profileImage %>" alt="">
-          <div class="details">
-            <h3><%= user.get('google').name %></h3>
-            <a href="mailto:<%= user.get('google').email %>"><%= user.get('google').email %></a>
+          <% if (session.passport.user) { %>
+          <div class="user-info clearfix">
+            <img class="pull-left img-thumbnail img-circle" src="<%= user.get('google').profileImage %>" alt="">
+            <div class="details">
+              <h3><%= user.get('google').name %></h3>
+              <a href="mailto:<%= user.get('google').email %>"><%= user.get('google').email %></a>
+            </div>
           </div>
-        </div>
+          <% } %>
 
         <div class="coordinates">
-          <select id="" name="">
-            <option value="coord1">Lat/Lng</option>
-            <option value="coord2">Coord 2</option>
-            <option value="coord3">Coord 3</option>
+          <select class="form-control" id="coordinate-system" name="">
+            <option value="latlng">Lat/Lng</option>
+            <option value="dms">DMS</option>
           </select>
 
           <div class="coordinates-view">
@@ -26,7 +28,12 @@
             <span class="label">Longitude</span>:
           </div>
         </div>
-        <div class="location-info"></div>
+        <div class="location-info">
+          <strong>Approximate address</strong>
+          <span></span><br>
+          <strong>County</strong>
+          <span></span>
+        </div>
       </div>
     </div>
   </div>

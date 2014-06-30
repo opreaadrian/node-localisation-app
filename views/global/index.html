@@ -1,8 +1,6 @@
 <% include head.html %>
 <% include nav.html %>
-<% if (session.passport.user) { %>
-  <% include ../infopanel.html %>
-<% } %>
+<% include ../infopanel.html %>
 <div class="map-wrapper">
 
   <% if (!session.passport.user) { %>
