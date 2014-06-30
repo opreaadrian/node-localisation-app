@@ -42,41 +42,43 @@
    * terms of latitude / longitude -- obtained from HTML5 geolocation API
    */
   function initializeMap(coords) {
-    var mapOptions = {},
-      mapCanvas = null,
-      map = null,
-      geocoder = null,
-      coordinateSystemSelect = document.querySelector('#coordinate-system'),
-      latLng = new google.maps.LatLng(coords.latitude, coords.longitude),
-      coordinatesView = document.querySelector('.coordinates-view'),
-      locationInfo = document.querySelector('.location-info');
+    var mapOptions             = {},
+        mapCanvas              = null,
+        map                    = null,
+        geocoder               = null,
+        coordinateSystemSelect = document.querySelector('#coordinate-system'),
+        latLng                 = new google.maps.LatLng(coords.latitude, coords.longitude),
+        coordinatesView        = document.querySelector('.coordinates-view'),
+        locationInfo           = document.querySelector('.location-info');
 
-    coordinatesView.innerHTML = '<strong>Latitude</strong>: <span>' +
+    coordinatesView.innerHTML  = '<strong>Latitude</strong>: <span>' +
                                 coords.latitude + '</span><br>'+
                                 '<strong>Longitude</strong>: <span>' +
                                 coords.longitude + '</span>';
 
     mapOptions = {
-      zoom: 17,
-      center: latLng,
+      zoom             : 17,
+      center           : latLng,
       /**
        * HACK: This is here for testing purposes and should be added conditionally based on the page
        * where the map is actually loaded (currently added for "index" page)
        */
-      disableDefaultUI: false,
-      mapTypeId: google.maps.MapTypeId.ROADMAP
+      disableDefaultUI : false,
+      mapTypeId        : google.maps.MapTypeId.ROADMAP
     };
 
     mapCanvas = document.querySelector('.map-canvas');
 
-    mapCanvas.addEventListener('mousedown', _handleMapMouseDown, false);
+    if (!document.querySelector('.login-panel')) {
+      mapCanvas.addEventListener('mousedown', _handleMapMouseDown, false);
+    }
 
-    map = new google.maps.Map(mapCanvas, mapOptions);
+    map       = new google.maps.Map(mapCanvas, mapOptions);
 
-    geocoder = new google.maps.Geocoder();
+    geocoder  = new google.maps.Geocoder();
 
     geocoder.geocode({
-      latLng: latLng
+      latLng : latLng
     }, function(results, status) {
 
       if (status == google.maps.GeocoderStatus.OK) {
@@ -93,22 +95,22 @@
     });
 
     function calculateDMS() {
-      var latDegrees = 0,
-          latMinutes = 0,
-          latSeconds = 0,
-          longDegrees = 0,
-          longMinutes = 0,
-          longSeconds = 0,
+      var latDegrees       = 0,
+          latMinutes       = 0,
+          latSeconds       = 0,
+          longDegrees      = 0,
+          longMinutes      = 0,
+          longSeconds      = 0,
           intermediaryUnit = 0;
 
-      latDegrees = parseInt(coords.latitude, 10);
+      latDegrees       = parseInt(coords.latitude, 10);
       intermediaryUnit = (coords.latitude % 1 * 60);
-      latMinutes = parseInt(intermediaryUnit, 10);
-      latSeconds = intermediaryUnit % 1 * 60;
-      longDegrees = parseInt(coords.longitude, 10);
+      latMinutes       = parseInt(intermediaryUnit, 10);
+      latSeconds       = intermediaryUnit % 1 * 60;
+      longDegrees      = parseInt(coords.longitude, 10);
       intermediaryUnit = (coords.longitude % 1 * 60);
-      longMinutes = parseInt(intermediaryUnit, 10);
-      longSeconds = intermediaryUnit % 1 * 60;
+      longMinutes      = parseInt(intermediaryUnit, 10);
+      longSeconds      = intermediaryUnit % 1 * 60;
 
       coordinatesView.innerHTML = '<strong>Latitude</strong>: ' + latDegrees +
                                 '&deg; ' + latMinutes + '" ' +
@@ -128,10 +130,10 @@
 
     coordinateSystemSelect.addEventListener('change', function(e) {
       switch (e.target.value) {
-        case 'dms':
+        case 'dms'    :
           calculateDMS();
           break;
-        case 'latlng':
+        case 'latlng' :
           addLatLng();
           break;
 
@@ -150,17 +152,17 @@
    * @param {object} coords The coordinates object, specifying the current position of our user
    */
   function initializeInfoPanel(map, coords) {
-    var infoWindow,
-      pos = null,
-      marker = null;
+    var infoWindow = null,
+        pos        = null,
+        marker     = null;
 
     pos = new google.maps.LatLng(coords.latitude, coords.longitude);
 
 
     marker = new google.maps.Marker({
-      map: map,
-      position: pos,
-      title: 'You are here'
+      map      : map,
+      position : pos,
+      title    : 'You are here'
     });
 
     infoWindow = new google.maps.InfoWindow({

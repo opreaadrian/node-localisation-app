@@ -78,7 +78,7 @@ module.exports = function(passport) {
           if (req.user) {
             var user = req.user;
 
-            user.local.email = email;
+            user.local.email    = email;
             user.local.password = user.generateHash(password);
 
             user.save(function(err) {
@@ -174,9 +174,9 @@ module.exports = function(passport) {
 
   passport.use(new TwitterStrategy({
 
-    consumerKey    : authConfig.twitterAuth.consumerKey,
-    consumerSecret : authConfig.twitterAuth.consumerSecret,
-    callbackURL    : authConfig.twitterAuth.callbackURL,
+    consumerKey       : authConfig.twitterAuth.consumerKey,
+    consumerSecret    : authConfig.twitterAuth.consumerSecret,
+    callbackURL       : authConfig.twitterAuth.callbackURL,
     passReqToCallback : true
 
   }, function(req, token, refreshToken, profile, done) {

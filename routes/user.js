@@ -6,10 +6,10 @@ module.exports = function(app, passport) {
   app.get('/profile', isLoggedIn, function(req, res){
 
     res.render('account/profile', {
-      pageTitle: 'Profile page',
-      user: req.user,
-      session: req.session,
-      scripts: []
+      pageTitle : 'Profile page',
+      user      : req.user,
+      session   : req.session,
+      scripts   : []
     });
   });
 
@@ -83,11 +83,11 @@ module.exports = function(app, passport) {
 
   app.get('/unlink/:account', function(req, res) {
 
-    var user = req.user,
+    var user    = req.user,
         account = req.params.account;
 
     if (account == 'local') {
-      user.local.email = undefined;
+      user.local.email    = undefined;
       user.local.password = undefined;
     } else {
       user[account].token = undefined;

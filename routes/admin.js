@@ -1,6 +1,6 @@
-var fs = require('fs'),
-  mapsApiKey = JSON.parse(fs.readFileSync('./config/mapsapiconfig.json')).apiKey,
-  twilio = JSON.parse(fs.readFileSync('./config/twilio.json'));
+var fs         = require('fs'),
+    mapsApiKey = JSON.parse(fs.readFileSync('./config/mapsapiconfig.json')).apiKey,
+    twilio     = JSON.parse(fs.readFileSync('./config/twilio.json'));
 
 /*
  * GET home page.

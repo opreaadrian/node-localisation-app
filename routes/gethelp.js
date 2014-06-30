@@ -29,7 +29,7 @@ exports.send = function(req, res) {
         fromPhoneNo = twilio.fromPhoneNo,
         authToken   = twilio.token,
         client      = require('twilio')(accountSid, authToken),
-        phone = req.body.phoneNumber; // User's phone number -- inserted on the help page
+        phone       = req.body.phoneNumber; // User's phone number -- inserted on the help page
 
   client.sms.messages.create({
     body : 'The phone number from where the request was made: ' + phone,
