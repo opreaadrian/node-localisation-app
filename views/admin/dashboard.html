@@ -1,0 +1,10 @@
+<% include ../global/head.html %>
+<% include nav.html %>
+<% include ../infopanel.html %>
+<div class="map-wrapper">
+  <div class="map-canvas"></div>
+</div>
+<script>
+  var userProfileImage = "<%= session.passport.user && user.get('google').profileImage || '' %>";
+</script>
+<% include ../global/footer.html %>
