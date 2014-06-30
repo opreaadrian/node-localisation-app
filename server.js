@@ -2,6 +2,7 @@ var express  = require('express'),
     app      = express(),
     routes   = require('./routes'),
     gethelp  = require('./routes/gethelp'),
+    admin    = require('./routes/admin'),
     http     = require('http'),
     path     = require('path'),
     server   = http.createServer(app),
@@ -9,9 +10,11 @@ var express  = require('express'),
     ejs      = require('ejs').renderFile,
     mongoose = require('mongoose'),
     flash    = require('connect-flash'),
-    passport = require('passport');
+    passport = require('passport'),
+    database = require('./models/database')();
 
-require('./modules/passport')(passport);
+require('./modules/passportUser')(passport);
+require('./modules/passportAdmin')(passport);
 
 /**
  * Setup for all environments
@@ -74,6 +77,50 @@ app.post('/login', passport.authenticate('local-login', {
   successRedirect : '/profile', // redirect to the secure profile section
   failureRedirect : '/login', // redirect back to the signup page if there is an error
   failureFlash : true // allow flash messages
+}));
+
+/**
+ * Application administrator login
+ */
+app.get('/admin/login', function(req, res) {
+  'use strict';
+
+  res.render('admin/login', {
+    message   : req.flash('loginMessage'),
+    session   : req.session,
+    pageTitle : 'Admin panel login',
+    scripts   : []
+  });
+});
+
+app.post('/admin/login', passport.authenticate('admin-login', {
+  successRedirect : '/admin/dashboard', // redirect to the secure profile section
+  failureRedirect : '/admin/login', // redirect back to the signup page if there is an error
+  failureFlash : true // allow flash messages
+}));
+
+app.get('/admin/dashboard', admin.dashboard);
+
+
+/**
+ * App manager routes
+ * TODO To be moved in separate application that creates new accounts, manages current accounts,
+ * starts up new applications for customers (bootstrap/provision)
+ */
+app.get('/manager/registration', function(req, res) {
+  'use strict';
+  res.render('manager/registration', {
+    pageTitle : 'Register a new customer',
+    session   : req.session,
+    message   : req.flash('registrationMessage'),
+    scripts   : []
+  });
+});
+
+app.post('/manager/registration', passport.authenticate('admin-registration', {
+  successRedirect : '/',
+  failureRedirect : '/manager/registration',
+  failureFlash    : true
 }));
 
 /**
