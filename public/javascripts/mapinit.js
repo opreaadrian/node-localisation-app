@@ -1,9 +1,13 @@
-/* globals google */
+/* globals google, _ */
 // Extra ; in order to prevent concatenation errors when combining with third party plugins
-;(function(window, document, google, undefined) {
+;(function(window, document, google, _, undefined) {
+'use strict';
 
-  'use strict';
+_.templateSettings = {
+  interpolate: /\{\{(.+?)\}\}/g
+};
 
+function getGeoPosition(){
   /** Check for geolocation support in an optimal manner*/
   var hasGeolocation = 'geolocation' in window.navigator;
 
@@ -19,37 +23,41 @@
     initializeMap(position.coords);
 
   });
+}
 
-  function _handleMapMouseDown(evt) {
-    evt.target.addEventListener('mousemove', _handleMapMouseMove, false);
-    evt.target.addEventListener('mouseup', _handleMapMouseUp, false);
-  }
+function _handleMapMouseDown(evt) {
+  evt.target.addEventListener('mousemove', _handleMapMouseMove, false);
+  evt.target.addEventListener('mouseup', _handleMapMouseUp, false);
+}
 
-  function _handleMapMouseMove(evt) {
-    document.querySelector('.login-panel').classList.add('translucent');
-  }
+function _handleMapMouseMove(evt) {
+  document.querySelector('.login-panel').classList.add('translucent');
+}
 
-  function _handleMapMouseUp(evt) {
-    document.querySelector('.login-panel').classList.remove('translucent');
-    evt.target.removeEventListener('mousemove', _handleMapMouseMove);
-  }
-  /**
-   * @method initializeMap
-   *
-   * @description Initializes the google map constructor with the user's current position
-   *
-   * @param {object} coords The coordinates object, containing the user's position specified in
-   * terms of latitude / longitude -- obtained from HTML5 geolocation API
-   */
-  function initializeMap(coords) {
-    var mapOptions             = {},
-        mapCanvas              = null,
-        map                    = null,
-        geocoder               = null,
-        coordinateSystemSelect = document.querySelector('#coordinate-system'),
-        latLng                 = new google.maps.LatLng(coords.latitude, coords.longitude),
-        coordinatesView        = document.querySelector('.coordinates-view'),
-        locationInfo           = document.querySelector('.location-info');
+function _handleMapMouseUp(evt) {
+  document.querySelector('.login-panel').classList.remove('translucent');
+  evt.target.removeEventListener('mousemove', _handleMapMouseMove);
+}
+
+getGeoPosition();
+
+/**
+ * @method initializeMap
+ *
+ * @description Initializes the google map constructor with the user's current position
+ *
+ * @param {object} coords The coordinates object, containing the user's position specified in
+ * terms of latitude / longitude -- obtained from HTML5 geolocation API
+ */
+function initializeMap(coords) {
+  var mapOptions             = {},
+      mapCanvas              = null,
+      map                    = null,
+      geocoder               = null,
+      coordinateSystemSelect = document.querySelector('#coordinate-system'),
+      coordinatesView        = document.querySelector('.coordinates-view'),
+      latLng                 = new google.maps.LatLng(coords.latitude, coords.longitude);
+        
 
     coordinatesView.innerHTML  = '<strong>Latitude</strong>: <span>' +
                                 coords.latitude + '</span><br>'+
@@ -69,30 +77,13 @@
 
     mapCanvas = document.querySelector('.map-canvas');
 
-    if (!document.querySelector('.login-panel')) {
+    if (document.querySelector('.login-panel')) {
       mapCanvas.addEventListener('mousedown', _handleMapMouseDown, false);
     }
 
     map       = new google.maps.Map(mapCanvas, mapOptions);
 
-    geocoder  = new google.maps.Geocoder();
-
-    geocoder.geocode({
-      latLng : latLng
-    }, function(results, status) {
-
-      if (status == google.maps.GeocoderStatus.OK) {
-        if (results && results.length) {
-
-
-          locationInfo.innerHTML = '<strong>Approximate address</strong><span> ' +
-                                    results[0].formatted_address + '</span><br>' +
-                                    '<strong>County</strong><span> ' +
-                                    results[0].address_components[4].long_name +
-                                    '(' + results[0].address_components[4].short_name + ')</span>';
-        }
-      }
-    });
+    getApproximateAddress(latLng); 
 
     function calculateDMS() {
       var latDegrees       = 0,
@@ -143,6 +134,30 @@
     initializeInfoPanel(map, coords);
   }
 
+  function getApproximateAddress(latLng) {
+    var geocoder  = new google.maps.Geocoder();
+    geocoder.geocode({
+      latLng : latLng
+    }, function(results, status) {
+
+      if (status == google.maps.GeocoderStatus.OK) {
+        if (results && results.length) {
+          updateLocationInfo(results[0]);
+        }
+      }
+    });
+  }
+
+  function updateLocationInfo(data) {
+    var locationInfo = document.querySelector('.location-info');    
+
+    locationInfo.innerHTML = '<strong>Approximate address</strong><span> ' +
+                              data.formatted_address + '</span><br>' +
+                              '<strong>County</strong><span> ' +
+                              data.address_components[4].long_name +
+                              '(' + data.address_components[4].short_name + ')</span>';
+  }
+
   /**
    * @method initializeInfoPanel
    *
@@ -186,4 +201,4 @@
     map.setCenter(pos);
   }
 
-})(window, document, google);
+})(window, document, google, _);
