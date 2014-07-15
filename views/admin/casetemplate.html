@@ -1,0 +1,18 @@
+<script id="case-template" type="template/html">
+  <div class="case">
+    {{ if (isAuthenticated) { }}
+      <div class="user-info clearfix">
+        <img class="profile-image pull-left img-thumbnail img-circle" src="{{= profileImage }}">
+        <div class="details">
+          <h3>{{= name }}</h3>
+          <a href="mailto:{{= email }}">{{= email }}</a>
+        </div>
+      </div>
+    {{ } }}
+      
+    <strong>Latitude</strong>: <span>{{= coordinates.latitude }}</span><br>
+    <strong>Longitude</strong>: <span>{{= coordinates.longitude }}</span><br><br>
+
+    <button class="more-info btn btn-danger" data-case-info="{{= caseDetails }}">Start case</button>
+  </div>
+</script>

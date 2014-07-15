@@ -177,5 +177,10 @@ io.sockets.on('connection', function(socket) {
   socket.on('localized', function(data) {
     console.log(data);
   });
+
+  socket.on('emergency', function(data) {
+    io.sockets.emit('case:registered', data);
+    console.log(data);
+  });
 });
 

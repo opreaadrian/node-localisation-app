@@ -1,10 +1,12 @@
-/* globals google, _ */
+/* globals google, _, io, user */
 // Extra ; in order to prevent concatenation errors when combining with third party plugins
-;(function(window, document, google, _, undefined) {
+var ApplicationMap = (function(window, document, google, _, undefined) {
 'use strict';
 
 _.templateSettings = {
-  interpolate: /\{\{(.+?)\}\}/g
+  evaluate: /\{\{(.+?)\}\}/g,
+  interpolate: /\{\{=(.+?)\}\}/g,
+  escape: /\{\{-(.+?)\}\}/g
 };
 
 function getGeoPosition(){
@@ -39,8 +41,6 @@ function _handleMapMouseUp(evt) {
   evt.target.removeEventListener('mousemove', _handleMapMouseMove);
 }
 
-getGeoPosition();
-
 /**
  * @method initializeMap
  *
@@ -55,14 +55,7 @@ function initializeMap(coords) {
       map                    = null,
       geocoder               = null,
       coordinateSystemSelect = document.querySelector('#coordinate-system'),
-      coordinatesView        = document.querySelector('.coordinates-view'),
       latLng                 = new google.maps.LatLng(coords.latitude, coords.longitude);
-        
-
-    coordinatesView.innerHTML  = '<strong>Latitude</strong>: <span>' +
-                                coords.latitude + '</span><br>'+
-                                '<strong>Longitude</strong>: <span>' +
-                                coords.longitude + '</span>';
 
     mapOptions = {
       zoom             : 17,
@@ -83,55 +76,88 @@ function initializeMap(coords) {
 
     map       = new google.maps.Map(mapCanvas, mapOptions);
 
-    getApproximateAddress(latLng); 
+    getApproximateAddress(latLng);
 
-    function calculateDMS() {
-      var latDegrees       = 0,
-          latMinutes       = 0,
-          latSeconds       = 0,
-          longDegrees      = 0,
-          longMinutes      = 0,
-          longSeconds      = 0,
-          intermediaryUnit = 0;
-
-      latDegrees       = parseInt(coords.latitude, 10);
-      intermediaryUnit = (coords.latitude % 1 * 60);
-      latMinutes       = parseInt(intermediaryUnit, 10);
-      latSeconds       = intermediaryUnit % 1 * 60;
-      longDegrees      = parseInt(coords.longitude, 10);
-      intermediaryUnit = (coords.longitude % 1 * 60);
-      longMinutes      = parseInt(intermediaryUnit, 10);
-      longSeconds      = intermediaryUnit % 1 * 60;
-
-      coordinatesView.innerHTML = '<strong>Latitude</strong>: ' + latDegrees +
-                                '&deg; ' + latMinutes + '" ' +
-                                latSeconds + '\'' + '</strong><br>' +
-                                '<strong>Longitude</strong>: ' +
-                                longDegrees + '&deg; ' +
-                                longMinutes + '" ' +
-                                longSeconds + '\'';
-    }
-
-    function addLatLng() {
-      coordinatesView.innerHTML = '<strong>Latitude</strong>: <span>' +
-                                  coords.latitude + '</span><br>'+
-                                  '<strong>Longitude</strong>: <span>' +
-                                  coords.longitude + '</span>';
-    }
+    changeCoordinateSystem('latlng', coords.latitude, coords.longitude);
 
     coordinateSystemSelect.addEventListener('change', function(e) {
-      switch (e.target.value) {
-        case 'dms'    :
-          calculateDMS();
-          break;
-        case 'latlng' :
-          addLatLng();
-          break;
-
-
-      }
+      changeCoordinateSystem(e.target.value, coords.latitude, coords.longitude);
     }, false);
     initializeInfoPanel(map, coords);
+  }
+
+  function updateCoordinatesView(data) {
+    var coordinatesView = document.querySelector('.coordinates-view'),
+        template        = null;
+
+    switch (data.coordSystem) {
+      case 'dms':
+        template = _.template($('#coordinates-dms').text());
+        coordinatesView.innerHTML =  template(data);
+        break;
+      case 'latlng':
+        template = _.template($('#coordinates-latlng').text());
+        coordinatesView.innerHTML =  template(data);
+        break;
+    }
+  }
+
+  function calculateDMS(latitude, longitude) {
+    var latDegrees       = 0,
+        latMinutes       = 0,
+        latSeconds       = 0,
+        longDegrees      = 0,
+        longMinutes      = 0,
+        longSeconds      = 0,
+        intermediaryUnit = 0;
+
+    latDegrees       = parseInt(latitude, 10);
+    intermediaryUnit = (latitude % 1 * 60);
+    latMinutes       = parseInt(intermediaryUnit, 10);
+    latSeconds       = intermediaryUnit % 1 * 60;
+    longDegrees      = parseInt(longitude, 10);
+    intermediaryUnit = (longitude % 1 * 60);
+    longMinutes      = parseInt(intermediaryUnit, 10);
+    longSeconds      = intermediaryUnit % 1 * 60;
+
+    return {
+      coordSystem: 'dms',
+      latitude : {
+        degrees: latDegrees,
+        minutes: latMinutes,
+        seconds: latSeconds
+      },
+      longitude: {
+        degrees: longDegrees,
+        minutes: longMinutes,
+        seconds: longSeconds
+      }
+    };
+
+  }
+
+  function addLatLng(latitude, longitude) {
+    return {
+      coordSystem: 'latlng',
+      latitude : latitude,
+      longitude: longitude
+    };
+  }
+
+  function changeCoordinateSystem(targetSystem, latitude, longitude) {
+      switch (targetSystem) {
+        case 'dms'    :
+          var dms = calculateDMS(latitude, longitude);
+          updateCoordinatesView(dms);
+          break;
+        case 'latlng' :
+          var latlng = addLatLng(latitude, longitude);
+          updateCoordinatesView(latlng);
+          break;
+        default:
+          addLatLng(latitude, longitude);
+          updateCoordinatesView(latlng);
+    }
   }
 
   function getApproximateAddress(latLng) {
@@ -149,7 +175,7 @@ function initializeMap(coords) {
   }
 
   function updateLocationInfo(data) {
-    var locationInfo = document.querySelector('.location-info');    
+    var locationInfo = document.querySelector('.location-info');
 
     locationInfo.innerHTML = '<strong>Approximate address</strong><span> ' +
                               data.formatted_address + '</span><br>' +
@@ -182,15 +208,24 @@ function initializeMap(coords) {
 
     infoWindow = new google.maps.InfoWindow({
       content:
-        (window.userProfileImage ? '<div><img class="profile-image img-thumbnail img-circle" src="' + window.userProfileImage +'"></div>' : '') +
+        (window.user && window.user.isAuthenticated ? '<div><img class="profile-image img-thumbnail img-circle" src="' + window.user.profileImage +'"></div>' : '') +
         '<strong>Latitude: </strong>' +
         coords.latitude +
         '<br> <strong>Longitude: </strong> ' +
         coords.longitude +
         '<br><br>' +
-        '<button class="more-info btn btn-info" data-toggle="modal" data-target="#myModal">Detailed info</button>',
-      maxWidth: 200
+        '<button class="more-info btn btn-info" data-toggle="modal" data-target="#details-panel">Detailed info</button>' +
+        '<button class="get-help btn btn-danger" data-toggle="modal" data-target="#get-help">Get help</button>',
+      maxWidth: 300
     });
+
+
+    // var sendMessageButton = document.querySelector('#send-message');
+
+    // sendMessageButton.addEventListener('click', function(e) {
+    //   e.preventDefault();
+    //   debugger;
+    // }, false);
 
     infoWindow.open(marker.get('map'), marker);
 
@@ -198,7 +233,52 @@ function initializeMap(coords) {
       infoWindow.open(marker.get('map'), marker);
     });
 
+    initializeFormListener(coords);
+
     map.setCenter(pos);
   }
+
+  function initializeFormListener(coords /* the LAT/LNG coordinates object*/) {
+    var getHelpForm =  document.querySelector('#get-help-form');
+
+    getHelpForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      var phoneNumber = e.target.phoneNumber.value;
+
+      if (phoneNumber) {
+        // Start realtime communication
+        // Create case in administration panel
+        // Send details
+        // Listen for location changes
+        var socket = io.connect('http://192.168.0.101:8080/');
+        socket.on('connected', function(data) {
+          console.log('Connection established %o', data);
+
+          user.coordinates = {
+            latitude  : coords.latitude,
+            longitude : coords.longitude,
+          };
+          user.phoneNo = phoneNumber;
+
+          user.caseDetails = encodeURIComponent(JSON.stringify(user));
+
+          socket.emit('emergency', user);
+          socket.on('case:registered', function() {
+            e.target.innerHTML = 'Your message has been sent!';
+          });
+        });
+
+      } else {
+        // Return an error
+        // Stop execution
+      }
+    }, false);
+  }
+
+  return {
+    start: getGeoPosition
+  };
 
 })(window, document, google, _);

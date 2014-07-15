@@ -15,6 +15,7 @@ exports.index = function (req, res) {
     user      : req.user,
     scripts   : [
       '//maps.googleapis.com/maps/api/js?key=' + mapsApiKey + '&sensor=true',
+      '/socket.io/socket.io.js',
       '/javascripts/mapinit.js',
       '/components/bootstrap/js/popover.js',
       '//code.createjs.com/tweenjs-0.5.1.min.js'

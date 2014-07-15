@@ -22,7 +22,6 @@ module.exports = function(app, passport) {
 
   /**
    * Facebook auth routes
-   * TODO Should be moved to separate routes module
    */
   app.get('/auth/facebook', passport.authenticate('facebook', {scope: 'email'}));
 
@@ -33,7 +32,6 @@ module.exports = function(app, passport) {
 
   /**
    * Twitter auth routes
-   * TODO Should be moved to separate routes module
    */
   app.get('/auth/twitter', passport.authenticate('twitter'));
 
@@ -44,7 +42,6 @@ module.exports = function(app, passport) {
 
   /**
    * Google auth routes
-   * TODO Should be moved to separate routes module
    */
   app.get('/auth/google', passport.authenticate('google', { scope: [ 'profile', 'email'] }));
 

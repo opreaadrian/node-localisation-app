@@ -1,0 +1,34 @@
+<script type="text/html" id="get-help-form-template">
+  <form class="form-inline " action="/get-help" method="POST" role="form">
+    <div class="form-group">
+      <label class="sr-only" for="phoneNumber">Phone number</label>
+      <input id="phoneNumber" name="phoneNumber" class="form-control input-lg" type="tel" placeholder="Insert your phone number ...">
+    </div>
+    <button class="btn btn-lg btn-primary" type="submit">Go!</button>
+  </form>
+</script>
+
+<div class="modal fade" id="get-help" tabindex="-1" role="dialog" aria-labelledby="getHelpLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="getHelpLabel">Get help</h4>
+      </div>
+
+        <div class="modal-body container-fluid">
+
+          <form id="get-help-form" action="/get-help" method="POST" role="form">
+            <div class="form-group">
+              <label class="" for="phoneNumber">Phone number</label>
+              <input id="phoneNumber" name="phoneNumber" class="form-control input-lg" type="tel" placeholder="Insert your phone number ...">
+            </div>
+
+            <button data-dismiss="modal" class="btn btn-default btn-lg" type="button">Cancel</button>
+            <button id="send-message" class="btn btn-lg btn-primary" type="submit">Send</button>
+          </form>
+
+      </div>
+    </div>
+  </div>
+</div>

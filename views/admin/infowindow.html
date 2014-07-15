@@ -1,0 +1,18 @@
+<script type="template/html" id="info-window">
+  <div>
+    <img class="profile-image img-thumbnail img-circle" src="{{userInfo.picture}}">
+  </div>
+  <strong>Latitude: </strong> {{= userInfo.latitude}}
+  <br>
+  <strong>Longitude: </strong> {{= userInfo.longitude}}
+  <br>
+  <br>
+
+  <button
+    class="more-info btn btn-info"
+    data-user-info="{{= JSON.stringify(userInfo)}}"
+    data-toggle="modal"
+    data-target="#myModal">
+    Detailed info
+  </button>
+</script>

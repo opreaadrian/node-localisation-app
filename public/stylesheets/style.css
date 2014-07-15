@@ -10,7 +10,7 @@ body .main {
   height: 100%;
   position: relative;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/adrianoprea\/Documents\/Projects\/node-localisation\/public\/stylesheets\/sass\/style\.scss}line{font-family:\0000313}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/adrianoprea\/Documents\/Projects\/node-localisation\/public\/stylesheets\/sass\/style\.scss}line{font-family:\0000312}}
 body .login-panel,
 body .navigation {
   margin-bottom: 0;
@@ -67,8 +67,19 @@ body .details-view img {
   height: 100px;
   margin-right: 50px;
 }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/adrianoprea\/Documents\/Projects\/node-localisation\/public\/stylesheets\/sass\/style\.scss}line{font-family:\0000374}}
+body .cases-panel {
+  position: relative;
+  height: 100%;
+  background: #fff;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/adrianoprea\/Documents\/Projects\/node-localisation\/public\/stylesheets\/sass\/style\.scss}line{font-family:\0000379}}
+body .cases-panel .case {
+  padding-bottom: 20px;
+  border-bottom: 1px solid #e3e3e3;
+}
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/adrianoprea\/Documents\/Projects\/node-localisation\/public\/stylesheets\/sass\/style\.scss}line{font-family:\0000375}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/adrianoprea\/Documents\/Projects\/node-localisation\/public\/stylesheets\/sass\/style\.scss}line{font-family:\0000386}}
 html, body {
   height: 100%;
   margin: 0;

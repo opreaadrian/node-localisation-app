@@ -48,7 +48,7 @@ exports.send = function(req, res) {
     scripts   : [
       '//maps.googleapis.com/maps/api/js?key=' + mapsApiKey + '&sensor=true',
       'components/bootstrap/js/popover.js',
-      'javascripts/mapinit.js'
+      // 'javascripts/mapinit.js'
     ]
   });
 

@@ -33,7 +33,21 @@
   -->
   <div class="map-canvas"></div>
 </div>
-<script>
-  var userProfileImage = "<%= session.passport.user && user.get('google').profileImage || '' %>";
-</script>
+<% if (session.passport.user) {%>
+  <script>
+    var user = {
+      isAuthenticated : true,
+      name            : "<%= user.get('google').name %>",
+      email           : "<%= user.get('google').email %>",
+      profileImage    : "<%= user.get('google').profileImage %>"
+    };
+
+  </script>
+<% } else {%>
+  <script>
+    var user = {
+      isAuthenticated: false
+    };
+  </script>
+<% } %>
 <% include footer.html %>

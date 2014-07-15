@@ -1,10 +1,10 @@
 <% include ../global/head.html %>
 <% include nav.html %>
 <% include ../infopanel.html %>
-<div class="map-wrapper">
+<div class="map-wrapper clearfix">
   <div class="map-canvas"></div>
+  <% include detailspanel.html %>
 </div>
-<script>
-  var userProfileImage = "<%= session.passport.user && user.get('google').profileImage || '' %>";
-</script>
+<% include infowindow.html %>
+<% include casetemplate.html %>
 <% include ../global/footer.html %>
