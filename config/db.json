@@ -1,6 +1,6 @@
 {
   "username" : "emergency-service",
-  "password" : "test123",
+  "password" : "test1234",
   "dbHost"   : "ds027739.mongolab.com",
   "dbPort"   : "27739",
   "dbName"   : "trackr-db"
