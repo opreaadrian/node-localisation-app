@@ -118,7 +118,7 @@ app.get('/manager/registration', function(req, res) {
 });
 
 app.post('/manager/registration', passport.authenticate('admin-registration', {
-  successRedirect : '/',
+  successRedirect : '/admin/login',
   failureRedirect : '/manager/registration',
   failureFlash    : true
 }));
