@@ -1,10 +1,10 @@
 # Mocha tests output
 /test/out/*
 # Google Maps API config
-mapsapiconfig.json
+# mapsapiconfig.json
 
 # Twilio API creds
-twilio.json
+# twilio.json
 
 # Compilation artefacts
-style.css
+# style.css
