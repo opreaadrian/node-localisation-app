@@ -252,7 +252,7 @@ function initializeMap(coords) {
         // Create case in administration panel
         // Send details
         // Listen for location changes
-        var socket = io.connect('http://trackrapplication.herokuapp.com:8080/');
+        var socket = io.connect('http://trackrapplication.herokuapp.com');
         socket.on('connected', function(data) {
           console.log('Connection established %o', data);
 

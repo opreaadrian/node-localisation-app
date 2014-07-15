@@ -1,5 +1,5 @@
 /* globals google, io, _*/
-var socket         = io.connect('http://trackrapplication.herokuapp.com:8080/'),
+var socket         = io.connect('http://trackrapplication.herokuapp.com'),
     casesContainer = document.querySelector('.cases');
 
 socket.on('connected', function(data) {
