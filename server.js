@@ -19,7 +19,7 @@ require('./modules/passportAdmin')(passport);
 /**
  * Setup for all environments
  */
-app.set('port', process.env.PORT || 8080);
+app.set('port', process.env.PORT || 5000);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'html');
 app.engine('html', ejs);
