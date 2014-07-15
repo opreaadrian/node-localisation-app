@@ -252,7 +252,7 @@ function initializeMap(coords) {
         // Create case in administration panel
         // Send details
         // Listen for location changes
-        var socket = io.connect('http://192.168.0.101:8080/');
+        var socket = io.connect('http://localhost:8080/');
         socket.on('connected', function(data) {
           console.log('Connection established %o', data);
 
