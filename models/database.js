@@ -10,8 +10,11 @@ function database() {
 /**
  * Database connection url string
  */
-  var url     = 'mongodb://' + credentials.dbHost +  ':' +
-                credentials.dbPort +  '/' +  credentials.dbName,
+  var url     = 'mongodb://' + credentials.username + ':' +
+                credentials.password + '@' +
+                credentials.dbHost +  ':' +
+                credentials.dbPort +  '/' +
+                credentials.dbName,
 
 /**
  * Database connection options object

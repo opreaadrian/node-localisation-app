@@ -1,7 +1,7 @@
 {
-  "username" : "test",
-  "password" : "test",
-  "dbHost"   : "localhost",
-  "dbPort"   : "27017",
-  "dbName"   : "emergency-service"
+  "username" : "emergency-service",
+  "password" : "test123",
+  "dbHost"   : "ds027739.mongolab.com",
+  "dbPort"   : "27739",
+  "dbName"   : "trackr-db"
 }
